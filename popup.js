@@ -56,11 +56,11 @@ document.getElementById('questionInput').addEventListener('change', function() {
 document.getElementById('copyButton').addEventListener('click', function() {
     const responseText = document.getElementById('response').innerText;
     navigator.clipboard.writeText(responseText)
-    .then(() => {
-        alert('응답이 클립보드에 복사되었습니다.');
-    })
-    .catch(err => {
-        console.error('복사 실패:', err);
-        alert('오류가 발생했습니다: ' + err.message);
-    });
+    // .then(() => {
+    //     alert('응답이 클립보드에 복사되었습니다.');
+    // })
+    // .catch(err => {
+    //     console.error('복사 실패:', err);
+    //     alert('오류가 발생했습니다: ' + err.message);
+    // });
 });
