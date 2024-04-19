@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         chrome.storage.sync.get('gptApiKey', function(data) {
             const apiKey = data.gptApiKey;
             if (!apiKey) {
-                alert('API Key가 등록되지 않았습니다. 우클릭을 눌러 설정해주세요.');
+                alert('API Key가 등록되지 않았습니다. 옵션을 눌러 설정해주세요.');
                 return;
             }
     

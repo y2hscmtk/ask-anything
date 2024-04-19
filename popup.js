@@ -3,7 +3,7 @@ document.getElementById('questionInput').addEventListener('change', function() {
     chrome.storage.sync.get('gptApiKey', function(data) {
         const apiKey = data.gptApiKey;
         if (!apiKey) {
-            alert('API Key가 등록되지 않았습니다. 우클릭을 눌러 설정해주세요.');
+            alert('API Key가 등록되지 않았습니다. 옵션에서 키를 설정해주세요.');
             return;
         }
 
