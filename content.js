@@ -57,7 +57,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                     const responseText = data.choices[0].message.content;
                     // 답변 생성 이후 툴팁에 복사
                     tooltip.innerText = responseText;
-                    // 클립보드에 복사 추가
+                    // 클립보드에 복사
+                    navigator.clipboard.writeText(responseText).then(() => {
+                        console.log('클립보드에 복사 성공!');
+                    }).catch(err => {
+                        console.error('클립보드에 복사 실패:', err);
+                    });
                 } else {
                     //alert('답변을 받아오지 못했습니다.');
                     console.error('답변을 받아오지 못했습니다.', error);
