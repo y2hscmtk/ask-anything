@@ -1,14 +1,14 @@
 chrome.runtime.onInstalled.addListener(function() {
-    // API Key 등록 메뉴 항목 생성
-    chrome.contextMenus.create({
-        id: "api-key-register",
-        title: "API Key 등록",
-        contexts: ["all"]
-    });
+    // // API Key 등록 메뉴 항목 생성
+    // chrome.contextMenus.create({
+    //     id: "api-key-register",
+    //     title: "API Key 등록",
+    //     contexts: ["all"]
+    // });
     // 선택한 텍스트 복사 메뉴 항목 생성
     chrome.contextMenus.create({
         id: "copyText",
-        title: "Copy Selected Text",
+        title: "Ask!",
         contexts: ["selection"]
     });
 });
