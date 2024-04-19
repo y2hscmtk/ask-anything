@@ -37,7 +37,10 @@ document.getElementById('questionInput').addEventListener('change', function() {
         })
         .then(data => {
             if (data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content) {
-                document.getElementById('response').innerText = data.choices[0].message.content;
+                const responseText = data.choices[0].message.content;
+                // 답변 생성 이후 복사 버튼 활성화
+                document.getElementById('response').innerText = responseText;
+                document.getElementById('copyButton').style.display = 'block';
             } else {
                 alert('답변을 받아오지 못했습니다.');
             }
@@ -46,5 +49,18 @@ document.getElementById('questionInput').addEventListener('change', function() {
             console.error('오류가 발생했습니다:', error);
             alert('오류가 발생했습니다: ' + error.message);
         });
+    });
+});
+
+// 복사 버튼 클릭 이벤트 리스너
+document.getElementById('copyButton').addEventListener('click', function() {
+    const responseText = document.getElementById('response').innerText;
+    navigator.clipboard.writeText(responseText)
+    .then(() => {
+        alert('응답이 클립보드에 복사되었습니다.');
+    })
+    .catch(err => {
+        console.error('복사 실패:', err);
+        alert('오류가 발생했습니다: ' + err.message);
     });
 });

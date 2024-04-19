@@ -5,21 +5,54 @@
     <title>무물보</title>
     <style>
         body { 
-            background-color: #f5f5f1;
-            width: 400px; 
-            padding: 10px; 
-        }
-        textarea.questionInput{
+            background-color: #ffffff;
+            margin: 0;
             padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 250px;
+        }
+        #questionInput, #askButton, #response,#copyButton {
+            width: 100%; /* 전체 너비를 사용하도록 설정 */
+            box-sizing: border-box; /* padding과 border를 너비에 포함 */
+        }
+        #questionInput {
+            height: 50px;
             margin-bottom: 10px;
+            border: 1px solid #b0bec5;
+            background-color: #ffffff;
+            padding: 10px;
+            resize: vertical;
+        }
+        #askButton, #copyButton {
+            padding: 10px 0;
+            background-color: #0288d1;
+            color: white;
+            border: none;
+            margin-bottom: 10px;
+        }
+        #response {
+            border: 1px solid #b0bec5;
+            background-color: #ffffff;
+            padding: 10px;
+            word-wrap: break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; /* 텍스트가 너무 길면 말줄임표로 표시 */
+        }
+        #copyButton {
+            margin-top: 10px;
+            padding: 10px 15px; /* 버튼 내부의 padding 설정 */
+            background-color: #4fc3f7;
         }
     </style>
 </head> 
 <body>
-    <textarea id="questionInput" rows="15" cols="30" 
-    placeholder="무엇이든 물어보세요"></textarea>
+    <textarea id="questionInput" placeholder="무엇이든 물어보세요"></textarea>
     <button id="askButton">질문하기</button>
     <div id="response"></div>
+    <button id="copyButton">복사</button>
     <script src="popup.js"></script>
 </body>
 </html>
