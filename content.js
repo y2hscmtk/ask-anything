@@ -7,6 +7,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         tooltip.style.zIndex = '1000';
         tooltip.style.width = 'auto';
         tooltip.style.height = 'auto';
+        tooltip.style.overflowY = 'auto'; // Y축 스크롤 가능
         tooltip.style.backgroundColor = 'white';
         tooltip.style.color = 'black';
         tooltip.style.border = '1px solid black';
@@ -15,7 +16,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         tooltip.style.fontSize = 'small';
         tooltip.style.maxWidth = '200px';
         tooltip.style.boxShadow = '3px 3px 3px rgba(0,0,0,0.2)';
-        //tooltip.innerText = request.text;
         // gpt 응답 얻어오기
         chrome.storage.sync.get('gptApiKey', function(data) {
             const apiKey = data.gptApiKey;
@@ -55,6 +55,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             .then(data => {
                 if (data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content) {
                     const responseText = data.choices[0].message.content;
+                    console.log("응답 생성됨")
                     // 답변 생성 이후 툴팁에 복사
                     tooltip.innerText = responseText;
                     // 클립보드에 복사
@@ -63,6 +64,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                     }).catch(err => {
                         console.error('클립보드에 복사 실패:', err);
                     });
+                    // 클립보드 복사 이후 3초 뒤에 툴팁이 지워지도록
+                    setTimeout(() => {
+                        tooltip.remove();
+                    }, 3000);
                 } else {
                     //alert('답변을 받아오지 못했습니다.');
                     console.error('답변을 받아오지 못했습니다.', error);
@@ -79,9 +84,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         tooltip.style.left = (rect.left + window.scrollX) + 'px';
         document.body.appendChild(tooltip);
 
-        setTimeout(() => {
-            tooltip.remove();
-        }, 3000);
+        
 
         // 응답 보내기
         sendResponse({status: "Text displayed"});
