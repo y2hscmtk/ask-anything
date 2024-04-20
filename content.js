@@ -16,9 +16,15 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         tooltip.style.fontSize = 'small';
         tooltip.style.maxWidth = '200px';
         tooltip.style.boxShadow = '3px 3px 3px rgba(0,0,0,0.2)';
-        // gpt 응답 얻어오기
-        chrome.storage.sync.get('gptApiKey', function(data) {
+        // 크롬 확장 프로그램 저장소에서 사용자 API Key와 프롬프트, 툴팁 유지 시간 얻어오기
+        chrome.storage.sync.get(['gptApiKey', 'promptText', 'tooltipDuration'], function(data) {
             const apiKey = data.gptApiKey;
+            // 사용자가 입력한 프롬프트가 없다면 디폴트로 적용
+            const promptText = data.promptText || "주어진 질문에 대해서 한줄로 답을 알려주세요. 객관식이라면 답의 번호를 알려주고, 주관식이라면 짧게 답변하세요.";
+            // 사용자가 설정한 유지시간으로 적용, 없다면 디폴트로 3초
+            const tooltipDuration = (parseInt(data.tooltipDuration) || 3) * 1000;
+
+            // API 등록 안되어있다면 리턴
             if (!apiKey) {
                 alert('API Key가 등록되지 않았습니다. 옵션을 눌러 설정해주세요.');
                 return;
@@ -36,7 +42,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                     messages: [
                     {
                         "role": "system",
-                        "content": "주어진 질문에 대해서 한줄로 답을 알려주세요. 객관식이라면 답의 번호를 알려주고, 주관식이라면 짧게 답변하세요."
+                        "content": promptText
                     },
                     {
                         "role": "user",
@@ -64,10 +70,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                     }).catch(err => {
                         console.error('클립보드에 복사 실패:', err);
                     });
-                    // 클립보드 복사 이후 3초 뒤에 툴팁이 지워지도록
+                    // 클립보드 복사 이후 tooltipDuration초 뒤에 툴팁이 지워지도록
                     setTimeout(() => {
                         tooltip.remove();
-                    }, 3000);
+                    }, tooltipDuration);
                 } else {
                     //alert('답변을 받아오지 못했습니다.');
                     console.error('답변을 받아오지 못했습니다.', error);
