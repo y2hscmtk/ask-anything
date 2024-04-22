@@ -53,8 +53,9 @@ function sendMessageToContentScript(tab, info) {
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    console.log("chrome.tabs.onUpdated Called")
     // 탭의 URL이 변경되었거나 페이지가 새로고침된 경우
     if (changeInfo.url || changeInfo.status === "complete") {
-        delete injectedTabs[tabId];  // 삽입 상태 초기화
+        injectedTabs[tabId] = false // 비활성화
     }
 });

@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 툴팁 활성화 상태 저장 이벤트 리스너
     document.getElementById('tooltipEnabled').addEventListener('change', function() {
         const tooltipEnabled = document.getElementById('tooltipEnabled').checked;
+        console.log("")
         // 스토리지에 설정 정보 저장  
         chrome.storage.sync.set({ 'tooltipEnabled': tooltipEnabled }, function() {
             if (tooltipEnabled){
