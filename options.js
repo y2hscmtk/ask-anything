@@ -53,11 +53,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 툴팁 활성화 상태 저장 이벤트 리스너
-    document.getElementById('saveTooltipEnabled').addEventListener('click', function() {
-        // 체크박스 상태 저장 로직
+    document.getElementById('tooltipEnabled').addEventListener('change', function() {
         const tooltipEnabled = document.getElementById('tooltipEnabled').checked;
+        // 스토리지에 설정 정보 저장  
         chrome.storage.sync.set({ 'tooltipEnabled': tooltipEnabled }, function() {
-            alert('툴팁 표시 설정이 저장되었습니다.');
+            if (tooltipEnabled){
+                alert('툴팁이 활성화 되었습니다.');    
+            } else {
+                alert('툴팁이 비활성화 되었습니다.');
+            }
         });
     });
 });

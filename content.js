@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         tooltip.style.fontSize = 'small';
         tooltip.style.maxWidth = '200px';
         tooltip.style.boxShadow = '3px 3px 3px rgba(0,0,0,0.2)';
-        // 크롬 확장 프로그램 저장소에서 사용자 API Key와 프롬프트, 툴팁 유지 시간 얻어오기
+        // 크롬 확장 프로그램 저장소에서 사용자 API Key와 프롬프트, 툴팁 유지 시간, 툴팁 활성화 여부 얻어오기
         chrome.storage.sync.get(['gptApiKey', 'promptText', 'tooltipDuration'], function(data) {
             const apiKey = data.gptApiKey;
             // 사용자가 입력한 프롬프트가 없다면 디폴트로 적용
@@ -88,10 +88,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         const rect = window.getSelection().getRangeAt(0).getBoundingClientRect();
         tooltip.style.top = (rect.top + window.scrollY - tooltip.offsetHeight - 5) + 'px';
         tooltip.style.left = (rect.left + window.scrollX) + 'px';
-        document.body.appendChild(tooltip);
-
-        
-
+        chrome.storage.sync.get(['tooltipEnabled'], function(data) {
+            let tooltipEnabled = data.tooltipEnabled // 툴팁 활성화 여부
+            // 아직 사용자가 설정하지 않았다면 디폴트로 활성화
+            if(tooltipEnabled == undefined){
+                tooltipEnabled = true
+            }
+            console.log("tooltipEnabled : ",tooltipEnabled)
+            if (tooltipEnabled){ // 활성화 되어있는 경우에 한해 툴팁 띄워주기
+                document.body.appendChild(tooltip);
+            }
+        })
         // 응답 보내기
         sendResponse({status: "Text displayed"});
     }
