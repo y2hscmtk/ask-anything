@@ -24,7 +24,7 @@
         label {
             font-size: 16px; /* 레이블의 텍스트 크기를 키움 */
             font-weight: bold; /* 레이블의 글씨체를 굵게 함 */
-            width: 10%; /* 레이블 너비 조정 */
+            width: 12%; /* 레이블 너비 조정 */
         }
         input[type="text"],
         input[type="number"] {
@@ -63,14 +63,13 @@
     </div>
     
     <div class="container">
-        <label for="tooltipDuration">툴팁 유지 시간 (초):</label>
+        <label for="tooltipDuration">툴팁 유지 시간 (초):
+            <input type="checkbox" id="tooltipEnabled" name="tooltipEnabled" checked>
+        </label>
         <input type="number" id="tooltipDuration" placeholder="초 단위로 입력하세요">
         <input type="button" id="saveTooltipDuration" value="저장">
     </div>
-
     
-    <label for="tooltipEnabled" class="checkbox-label">툴팁 띄우기</label>
-    <input type="checkbox" id="tooltipEnabled" name="tooltipEnabled" checked>
     <script src="options.js"></script>
 </body>
 </html>

@@ -3,7 +3,6 @@ if (!window.hasListener) { // 이미 생성되어있다면 리스너 생성 방�
     window.hasListener = true;
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         if (request.text) {
-
             const tooltip = document.createElement('div');
             tooltip.style.position = 'fixed';
             tooltip.style.zIndex = '9999';
