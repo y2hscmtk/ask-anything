@@ -1,8 +1,8 @@
 function setDefaultValue() { // 기본값 설정
-    chrome.storage.sync.get('selectedModel', function(data) {
+    chrome.storage.sync.get(['selectedModel','promptText','tooltipDuration','tooltipEnabled'], function(data) {
         if (data.selectedModel === undefined) { // 기본 모델 설정
-            chrome.storage.sync.set({ 'selectedModel': 'GPT4' }, function() {
-                console.log('Set Default Model : GPT4');
+            chrome.storage.sync.set({ 'selectedModel': "gpt-4" }, function() {
+                console.log('Set Default Model : gpt-4');
             });
         }
         if (data.promptText === undefined) { // 기본 프롬프트 설정
@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (data.selectedModel !== undefined) {
             document.querySelector(`input[type="radio"][name="model"][value="${data.selectedModel}"]`).checked = true;
+            console.log("selectedModel Checked!")
         }
     });
 

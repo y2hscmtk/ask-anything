@@ -1,10 +1,10 @@
 document.getElementById('questionInput').addEventListener('change', function() {
     const question = this.value;
-    chrome.storage.sync.get(['gptApiKey', 'promptText'], function(data) {
+    chrome.storage.sync.get(['gptApiKey', 'promptText','selectedModel'], function(data) {
         const apiKey = data.gptApiKey;
-        // 사용자가 입력한 프롬프트가 없다면 디폴트로 적용
-        const promptText = data.promptText || "주어진 질문에 대해서 한줄로 답을 알려주세요. 객관식이라면 답의 번호를 알려주고, 주관식이라면 짧게 답변하세요.";
-
+        const promptText = data.promptText
+        const selectedModel = data.selectedModel
+        
         if (!apiKey) {
             alert('API Key가 등록되지 않았습니다. 옵션에서 키를 설정해주세요.');
             return;
@@ -18,7 +18,7 @@ document.getElementById('questionInput').addEventListener('change', function() {
                 'Authorization': 'Bearer ' + apiKey
             },
             body: JSON.stringify({
-                model: "gpt-4",
+                model: selectedModel,
                 messages: [
                 {
                     "role": "system",

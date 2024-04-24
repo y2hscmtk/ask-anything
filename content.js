@@ -20,24 +20,19 @@ if (!window.hasListener) { // 이미 생성되어있다면 리스너 생성 방�
             document.body.appendChild(tooltip); // 미리 DOM에 추가
 
             // 크롬 확장 프로그램 저장소에서 사용자 API Key와 프롬프트, 툴팁 유지 시간, 툴팁 활성화 여부 얻어오기
-            chrome.storage.sync.get(['gptApiKey', 'promptText', 'tooltipDuration','tooltipEnabled'], function(data) {
+            chrome.storage.sync.get(['gptApiKey', 'promptText', 'tooltipDuration','tooltipEnabled','selectedModel'], function(data) {
                 const apiKey = data.gptApiKey;
-                // 사용자가 입력한 프롬프트가 없다면 디폴트로 적용
-                const promptText = data.promptText || "주어진 질문에 대해서 한줄로 답을 알려주세요. 객관식이라면 답의 번호를 알려주고, 주관식이라면 짧게 답변하세요.";
-                // 사용자가 설정한 유지시간으로 적용, 없다면 디폴트로 3초
-                const tooltipDuration = (parseInt(data.tooltipDuration) || 3) * 1000;
-                let enabled = data.tooltipEnabled;
-
-                if (enabled === undefined) { // 기본값을 true로 설정
-                    enabled = true;
-                }
+                const promptText = data.promptText
+                const tooltipDuration = (parseInt(data.tooltipDuration)) * 1000;
+                const enabled = data.tooltipEnabled;
+                const selectedModel = data.selectedModel
 
                 // API 등록 안되어있다면 리턴
                 if (!apiKey) {
                     alert('API Key가 등록되지 않았습니다. 옵션을 눌러 설정해주세요.');
                     return;
                 }
-        
+                console.log("model : ",selectedModel)
                 // GPT API 사용
                 fetch('https://api.openai.com/v1/chat/completions', {
                     method: 'POST',
@@ -46,7 +41,7 @@ if (!window.hasListener) { // 이미 생성되어있다면 리스너 생성 방�
                         'Authorization': 'Bearer ' + apiKey
                     },
                     body: JSON.stringify({
-                        model: "gpt-4",
+                        model: selectedModel, // 사용자 설정 모델로 변경
                         messages: [
                         {
                             "role": "system",
