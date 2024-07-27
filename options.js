@@ -1,12 +1,12 @@
 function setDefaultValue() { // 기본값 설정
     chrome.storage.sync.get(['selectedModel','promptText','tooltipDuration','tooltipEnabled'], function(data) {
         if (data.selectedModel === undefined) { // 기본 모델 설정
-            chrome.storage.sync.set({ 'selectedModel': "gpt-4" }, function() {
-                console.log('Set Default Model : gpt-4');
+            chrome.storage.sync.set({ 'selectedModel': "gpt-4o-mini" }, function() {
+                console.log('Set Default Model : gpt-4o-mini');
             });
         }
         if (data.promptText === undefined) { // 기본 프롬프트 설정
-            chrome.storage.sync.set({ 'promptText': '문제에 대한 정답을 알려주세요.' }, function() {
+            chrome.storage.sync.set({ 'promptText': '해당 문장 또는 단어에 대해서 추가로 설명해주세요' }, function() {
                 console.log("Set Default Prompt")
             });
         }
@@ -23,9 +23,8 @@ function setDefaultValue() { // 기본값 설정
     });
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
-    setDefaultValue()
+    setDefaultValue();
 
     // 사용자가 저장한 값이 있다면 로드해서 반영
     chrome.storage.sync.get(['gptApiKey', 'promptText', 'tooltipDuration', 'tooltipEnabled', 'selectedModel'], function(data) {
@@ -42,8 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('tooltipEnabled').checked = data.tooltipEnabled;
         }
         if (data.selectedModel !== undefined) {
-            document.querySelector(`input[type="radio"][name="model"][value="${data.selectedModel}"]`).checked = true;
-            console.log("selectedModel Checked!")
+            document.getElementById('modelSelect').value = data.selectedModel;
+            console.log("selectedModel Loaded!")
         }
     });
 
@@ -96,17 +95,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 라디오 버튼 이벤트 리스너 추가
-    let modelRadios = document.querySelectorAll('input[type="radio"][name="model"]');
-    modelRadios.forEach(function(radio) {
-        radio.addEventListener('change', function() {
-            if (this.checked) {
-                chrome.storage.sync.set({ 'selectedModel': this.value }, function() {
-                    alert('모델이 설정되었습니다 : ' + this.value);
-                }.bind(this)); // context 유지를 위해
-            }
+    // 셀렉트 박스 이벤트 리스너 추가
+    document.getElementById('saveModel').addEventListener('click', function() {
+        const selectedModel = document.getElementById('modelSelect').value;
+        chrome.storage.sync.set({ 'selectedModel': selectedModel }, function() {
+            alert('모델이 설정되었습니다 : ' + selectedModel);
         });
     });
 });
-
-

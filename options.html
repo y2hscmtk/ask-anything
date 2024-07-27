@@ -22,17 +22,18 @@
             margin-bottom: 10px;
         }
         label {
-            font-size: 16px; /* 레이블의 텍스트 크기를 키움 */
-            font-weight: bold; /* 레이블의 글씨체를 굵게 함 */
-            width: 12%; /* 레이블 너비 조정 */
+            font-size: 16px;
+            font-weight: bold;
+            width: 12%;
         }
         input[type="text"],
-        input[type="number"] {
+        input[type="number"],
+        select {
             padding: 10px;
             margin-right: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            width: 17%; /* input 필드 너비 조정 */
+            width: 17%;
         }
         input[type="button"] {
             padding: 10px 15px;
@@ -41,13 +42,10 @@
             background-color: #5c67f2;
             color: white;
             cursor: pointer;
-            width: 5%; /* 버튼 너비 조정 */
+            width: 7%;
         }
         input[type="button"]:hover {
             background-color: #4a54e1;
-        }
-        .radio-label { /*라디오버튼*/
-            font-weight: bold; 
         }
     </style>
 </head>
@@ -73,13 +71,17 @@
         <input type="button" id="saveTooltipDuration" value="저장">
     </div>
     
-    <div class="container"></div>
-        <label for="modelSelect">모델 선택 : </label>
-        <input type="radio" id="modelGPT4" name="model" value="gpt-4o" checked> 
-            <label for="modelGPT4" class="radio-label">GPT-4.0-o</label>
-        <input type="radio" id="modelGPT35" name="model" value="gpt-3.5-turbo"> 
-            <label for="modelGPT35" class="radio-label">GPT-3.5-Turbo</label>
-    </div>  
+    <div class="container">
+        <label for="modelSelect">모델 선택 :</label>
+        <select id="modelSelect">
+            <option value="gpt-4o-mini">GPT-4o-mini</option>
+            <option value="gpt-4o">GPT-4o</option>
+            <option value="gpt-4-turbo">GPT-4-turbo</option>
+            <option value="gpt-3.5-turbo">GPT-3.5-Turbo</option>
+            <!-- 여기 원하는 만큼 모델 추가 -->
+        </select>
+        <input type="button" id="saveModel" value="저장">
+    </div>
 
     <script src="options.js"></script>
 </body>
