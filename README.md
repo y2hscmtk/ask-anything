@@ -1,2 +1,2 @@
 # ask-anything
-Ask Anything GPT Chrome Extension
+Ask Anything : ChatGPT Chrome Extension
